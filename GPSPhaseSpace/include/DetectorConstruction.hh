@@ -3,14 +3,14 @@
 
 #include "G4SystemOfUnits.hh"
 #include "G4ThreeVector.hh"
-#include "G4VDNAMoldecularGometry.hh"
+#include "G4VDNAMolecularGeometry.hh"
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
 
 #include <map>
 
 class DetectorMessenger;
-class DNAGeomtery;
+class DNAGeometry;
 class G4LogicalVolume;
 class G4VPhysicalVolume;
 class G4Material;
@@ -20,11 +20,11 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     DetectorConstruction();
     ~DetectorConstruction() override;
     G4VPhysicalVolume* Construct() override;
-    void ConstrucSDandField() override {};
+  //    void ConstrucSDandField() override {};
     void SetWorldSideLength(const G4double& length) { fWorldSideLength = length; }
-    void SetCellRadius(sonst G4ThreeVector& lenght) { fCellRadius = length; }
+    void SetCellRadius(const G4ThreeVector& length) { fCellRadius = length; }
     [[maybe_unused]] auto GetWorld() const {return fWorld; };
-    auto GetDNAGeometry() const {return fpDNAGeomatery; };
+    auto GetDNAGeometry() const {return fpDNAGeometry; };
 
   protected:
     G4VPhysicalVolume* ConstructDetector();

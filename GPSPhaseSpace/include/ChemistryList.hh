@@ -24,36 +24,36 @@
 // ********************************************************************
 //
 
-#ifndef MolecularChemistryList_hh
-#define MolecularChemistryList_hh 1
+// #ifndef MolecularChemistryList_hh
+// #define MolecularChemistryList_hh 1
 
-#include "G4VPhysicsConstructor.hh"
-#include "G4VUserChemistryList.hh"
-#include "globals.hh"
+// #include "G4VPhysicsConstructor.hh"
+// #include "G4VUserChemistryList.hh"
+// #include "globals.hh"
 
-class G4DNAMolecularReactionTable;
+// class G4DNAMolecularReactionTable;
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+// //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class ChemistryList : public G4VUserChemistryList, public G4VPhysicsConstructor
-{
-  public:
-    ChemistryList();
+// class ChemistryList : public G4VUserChemistryList, public G4VPhysicsConstructor
+// {
+//   public:
+//     ChemistryList();
 
-    ~ChemistryList() override = default;
+//     ~ChemistryList() override = default;
 
-    void ConstructParticle() override;
+//     void ConstructParticle() override;
 
-    void ConstructMolecule() override;
+//     void ConstructMolecule() override;
 
-    void ConstructProcess() override;
+//     void ConstructProcess() override;
 
-    void ConstructDissociationChannels() override;
+//     void ConstructDissociationChannels() override;
 
-    void ConstructReactionTable(G4DNAMolecularReactionTable* reactionTable) override;
+//     void ConstructReactionTable(G4DNAMolecularReactionTable* reactionTable) override;
 
-    void ConstructTimeStepModel(G4DNAMolecularReactionTable* reactionTable) override;
-};
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//     void ConstructTimeStepModel(G4DNAMolecularReactionTable* reactionTable) override;
+// };
+// //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#endif
+// #endif

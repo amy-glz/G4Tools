@@ -2,11 +2,11 @@
 #define DETECTOR_MESSENGER_HH
 
 #include "G4UImessenger.hh"
-#incldue "globals.hh"
+#include "globals.hh"
 
 class DetectorConstruction;
-class G4UIcmWith3VectorAndUnit;
-class G4UIcmWithADoubleAndUnit;
+class G4UIcmdWith3VectorAndUnit;
+class G4UIcmdWithADoubleAndUnit;
 class G4UIdirectory;
 class G4UIcommand;
 class DetectorMessenger : public G4UImessenger
@@ -18,10 +18,10 @@ public:
 private:
   DetectorConstruction* fpDetectorConstruction;
   G4UIdirectory* fpWorldGeometryDirectory;
-  G4UIcmWithADoubleAndUnit* fpWorldSideLength;
+  G4UIcmdWithADoubleAndUnit* fpWorldSideLength;
 
   G4UIdirectory* fpCellGeometryDirectory;
-  G4UImWith3VectorAndUnit* fpCellRadius;
+  G4UIcmdWith3VectorAndUnit* fpCellRadius;
 };
 
 #endif

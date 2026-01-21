@@ -3,28 +3,28 @@
 #include "PhysicsList.hh"
 
 #include "G4RunManagerFactory.hh"
-#include "G4UImanger.hh"
+#include "G4UImanager.hh"
 #include "G4UIExecutive.hh"
 #include "G4VisExecutive.hh"
-#include "G4DNAChemestryManager.hh"
+#include "G4DNAChemistryManager.hh"
 
 int main(int argc, char** argv){
 
-  auto* RunManager = G4RunManagerFactory::CreateRunManager();
+  auto* runManager = G4RunManagerFactory::CreateRunManager();
   runManager->SetUserInitialization(new DetectorConstruction());
   runManager->SetUserInitialization(new PhysicsList());
   runManager->SetUserInitialization(new ActionInitialization());
 
-  G4DNAChemestryManager::Instance()->Initialize();
+  //  G4DNAChemestryManager::Instance()->Initialize();
 
   auto* visManager = new G4VisExecutive();
   visManager->Initialize();
 
-  auto* UImanger = G4UImanager::GetUIpointer();
+  auto* UImanager = G4UImanager::GetUIpointer();
 
   if (argc ==1){
     auto* ui = new G4UIExecutive(argc, argv);
-    UImanger->ApplyCommand("control/execute macros/vis.mac");
+    UImanager->ApplyCommand("control/execute macros/vis.mac");
 
     ui->SessionStart();
     delete ui;
@@ -36,5 +36,5 @@ int main(int argc, char** argv){
 
   delete visManager;
   delete runManager;
-  reutn 0;
+  return 0;
 }

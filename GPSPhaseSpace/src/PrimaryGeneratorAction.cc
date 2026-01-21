@@ -1,0 +1,40 @@
+#include "PrimaryGeneratorAction.hh"
+
+#include "G4ParticleGun.hh"
+#include "G4ParticleTable.hh"
+#include "G4ParticleDefinition.hh"
+#include "G4Event.hh"
+#include "G4SystemOfUnits.hh"
+#include "Randomize.hh"
+#include "G4ThreeVector.hh"
+// #include "CLHEP/Units/SystemOfUnits.hh"
+
+PrimaryGeneratorAction::PrimaryGeneratorAction(){
+  fGun = new G4ParticleGun(1);
+  G4ParticleDefinition * electron = G4ParticleTable::GetParticleTable()->FindParticle("e-");
+  fGun->SetParticleDefinition(electron);
+  fGun->SetParticleEnergy(6. * eV);
+  fGun->SetParticlePosition(G4ThreeVector(0));
+}
+
+
+PrimaryGeneratorAction::~PrimaryGeneratorAction(){ delete fGun; }
+
+void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event) {
+  // G4double cosTheta = 2.0 * G4UniformRand() - 1.0;
+  // G4double sinTheta = std::sqrt(1.0 - cosTheta*cosTheta);
+  // G4double phi      = 2.0 * CLHEP::pi * G4UniformRand();
+
+  // G4ThreeVector direction(sinTheta * std::cos(phi),
+  // 			  sinTheta * std::sin(phi),
+  // 			  cosTheta);
+
+  // fGun->SetParticleMomentumDirection(direction);
+  // fGun->GeneratePrimaryVertex(event);
+  // G4cout << "Generating primary particle" << G4endl;
+
+
+  file=TFile::Open("PhaseSpace.root");
+  tree= (TTree*)file->Get("PhSp");
+  
+}
