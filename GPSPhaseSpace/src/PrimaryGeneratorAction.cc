@@ -1,4 +1,5 @@
 #include "PrimaryGeneratorAction.hh"
+#include "PhaseSpaceData.hh"
 
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
@@ -7,72 +8,39 @@
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
 #include "G4ThreeVector.hh"
-#include "TFile.h"
-#include "TROOT.h"
+#include <TFile.h>
+#include <TTree.h>
+#include <TROOT.h>
 #include <iostream>
 #include <cmath> 
-// #include "CLHEP/Units/SystemOfUnits.hh"
+#include "CLHEP/Units/SystemOfUnits.h"
 
-PrimaryGeneratorAction::PrimaryGeneratorAction(){
-  // fGun = new G4ParticleGun(1);
-  // G4ParticleDefinition * electron = G4ParticleTable::GetParticleTable()->FindParticle("e-");
-  // fGun->SetParticleDefinition(electron);
-  // fGun->SetParticleEnergy(6. * eV);
-  // fGun->SetParticlePosition(G4ThreeVector(0));
-  file=TFile::Open("PhaseSpace.root");
-  tree= (TTree*)file->Get("PhSp");
-  tree->SetBranchesAddress("x", &x);
-  tree->SetBranchesAddress("y", &y);
-  tree->SetBranchesAddress("z", &z);
-  tree->SetBranchesAddress("px", &px);
-  tree->SetBranchesAddress("py", &py);
-  tree->SetBranchesAddress("pz", &px);
-  tree->SetBranchesAddress("E", &E);
-  tree->SetBranchesAddress("t", &t);
-  tree->SetBranchesAddress("w", &w);
-  tree->SetBranchesAddress("pdg", &pdg);
-
-  nEntries = tree->GetEntries();
-  currentEntry = 0;
-  
-}
-
+PrimaryGeneratorAction::PrimaryGeneratorAction(bool isMaster)
+  : fGun(new G4ParticleGun(1)), fIndex(0) {}
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction(){ delete fGun; }
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event) {
-  // G4double cosTheta = 2.0 * G4UniformRand() - 1.0;
-  // G4double sinTheta = std::sqrt(1.0 - cosTheta*cosTheta);
-  // G4double phi      = 2.0 * CLHEP::pi * G4UniformRand();
 
-  // G4ThreeVector direction(sinTheta * std::cos(phi),
-  // 			  sinTheta * std::sin(phi),
-  // 			  cosTheta);
+  auto data = PhaseSpaceData::Instance();
+  const auto n = data->GetSize();
 
-  // fGun->SetParticleMomentumDirection(direction);
-  // fGun->GeneratePrimaryVertex(event);
-  // G4cout << "Generating primary particle" << G4endl;
-
-
-  if(currendEntry >= nEntries) {
-    G4Exeption("PrimaryGeneratorAction",
+  if(fIndex >= n) {
+    G4Exception("PrimaryGeneratorAction",
 	       "EndOfPhaseSpace",
-	       FatalExeption,
+	       FatalException,
 	       "Phase space file exhausted");
   }
 
-  tree->GetEntry(currentEntry++);
-  auto ParticleDef = G4ParticleTable::GetParticleTable()->FindParticle(pdg);
-  G4ThreeVector Pos = G4ThreeVector(x * mm,y * mm,z * mm);
-  G4ThreeVector P = G4ThreeVector(px,py,pz);
+  const auto& p = data->GetParticle(fIndex++);
+  auto particleDef = G4ParticleTable::GetParticleTable()->FindParticle(p.pdg);
 
-  fGun->SetParticleDefinition(ParticleDef);
-  fGun->SetParticlePosition(Pos);
-  fGun->SetParticleMomentumDirection(P.unit);
-  fGun->SetParticleEnergy(E*MeV);
-
-  fGun->GetPrimaryVertex(event);
-  event->GetPrimaryVertex()->SetWeight(w);
-
+  fGun->SetParticleDefinition(particleDef);
+  fGun->SetParticlePosition(G4ThreeVector(p.x*mm, p.y*mm, p.z*mm));
+  fGun->SetParticleMomentumDirection(G4ThreeVector(p.ux, p.uy, p.uz).unit());
+  fGun->SetParticleEnergy(p.E * MeV);
+  fGun->GeneratePrimaryVertex(event);
+  event->GetPrimaryVertex()->SetWeight(p.w);
+    
   G4cout << "Generating primary particle" << G4endl;
 }

@@ -11,20 +11,21 @@ class G4Event;
 
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction {
 public:
-  PrimaryGeneratorAction();
+  PrimaryGeneratorAction(bool);
   ~PrimaryGeneratorAction() override;
 
   void GeneratePrimaries(G4Event* event) override;
   //  void SetInputFileName(const G4String& filename) { fMyInputFileName = filename;}
 
 private:
+
   // G4GeneralParticleSource* fParticleGun = nullptr;
   // G4String FMyInputFileName;
   // G4bool fFirstEvent;
 
   // PrimaryGeneratorMessenger* fGunMessenger = nullptr;
-
   G4ParticleGun* fGun;
+  size_t fIndex;
 };
 
 #endif

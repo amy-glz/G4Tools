@@ -9,14 +9,17 @@ find_package(ROOT REQUIRED)
 
 include_directories(${PROJECT_SOURCE_DIR}/include 
                     ${Geant4_INCLUDE_DIR}
-                    ${ROOT_INCLUDE_DIR})
+                    $)
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
 add_executable(GPS_PhSp main.cc ${sources} ${headers})
-target_link_libraries(GPS_PhSp 
-${Geant4_LIBRARIES}
-${ROOT_LIBRARIES})
+target_link_libraries(GPS_PhSp
+  ${Geant4_LIBRARIES}
+  ROOT::Core
+  ROOT::RIO
+  ROOT::Tree
+)
 
 # Para tener macros en el build
 # set(CMAKE_INSTALL_PREFIX init.mac)
