@@ -1,0 +1,18 @@
+/vis/scene/add/volume            # dibuja el World y el resto de la geometría
+/vis/scene/add/axes 0 0 0 5 cm  # ejes opcionales
+/vis/scene/add/trajectories smooth
+/vis/scene/add/hits
+/vis/scene/trajectories/create/drawBtChange
+/tracking/storeTrajectory 0
+
+# 5) Ajustes del viewer
+/vis/scene/endOfEventAction accumulate 1000
+/vis/viewer/set/style wireframe
+/vis/viewer/set/autoRefresh true
+/vis/viewer/zoom 1.3
+/vis/viewer/update
+
+# (Opcional) Para ver algunos eventos aquí mismo:
+#/tracking/storeTrajectory 1
+#/run/printProgress 100
+/run/beamOn 4

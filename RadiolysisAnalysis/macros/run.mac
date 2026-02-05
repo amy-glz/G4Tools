@@ -1,0 +1,14 @@
+# ===== Control básico =====
+/control/verbose 0
+/run/verbose 1
+/event/verbose 0
+/tracking/verbose 0
+
+
+/run/numberOfThreads 2
+
+# ===== Inicialización =====
+/run/initialize
+
+# ===== Ejecutar pocos eventos =====
+/run/beamOn 5
